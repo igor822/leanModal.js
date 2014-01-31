@@ -7,7 +7,8 @@
             var defaults = {
                 top: 100,
                 overlay: 0.5,
-                closeButton: null
+                closeButton: null,
+                onClose : null
             }
             
             var overlay = $("<div id='lean_overlay'></div>");
@@ -25,11 +26,11 @@
               	var modal_id = $(this).attr("href");
 
 				$("#lean_overlay").click(function() { 
-                     close_modal(modal_id);                    
+                     close_modal(modal_id, o.onClose);                    
                 });
                 
                 $(o.closeButton).click(function() { 
-                     close_modal(modal_id);                    
+                     close_modal(modal_id, o.onClose);                    
                 });
                          	
               	var modal_height = $(modal_id).outerHeight();
@@ -59,8 +60,10 @@
              
             });
 
-			function close_modal(modal_id){
-
+			function close_modal(modal_id, obj){
+				if (typeof obj == 'function') {
+					obj();
+				}
         		$("#lean_overlay").fadeOut(200);
 
         		$(modal_id).css({ 'display' : 'none' });
